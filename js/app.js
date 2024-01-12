@@ -3,13 +3,40 @@
 //console.log ("buenos dias, su monto es ");
 let opcion = "si";
 
+/*function buscar(punto){
+    let evaluar = "false";
+    do {
+        if(! punto.(".")){
+            evaluar = "true"
+        }else{
+            punto = prompt("ingrese el numero sin '.'")
+        }
+    }while (evaluar != "false");
+}
+*/
+function cargar(saludo){
+    let evaluar = "false";
+    let ingreso = "nada";
+    do {
+        ingreso = parseFloat(prompt(saludo));
+        if (typeof ingreso === "number"){
+            evaluar = "true"
+        } else{
+            alert ("no es un numero intente de nuevo");
+        }
+
+    }while (evaluar != "true");   
+    
+    return ingreso ;
+}
+
 do {  
 
-    let valor = parseFloat(prompt ("Buenos dias calcularemos el interes compuesto de su plazo fijo ingrese monto, solo numeros"));
+    let valor = cargar("Buenos dias calcularemos el interes compuesto de su plazo fijo ingrese monto, solo numeros");
 
-    const porcent = parseFloat(prompt ("ingrese el porcentaje que pagara el banco, solo numero"));  
+    const porcent = cargar("ingrese el porcentaje que pagara el banco, solo numero");  
 
-    let meses = parseInt(prompt ("Ingrese la cantidad de meses que establecera el plazo fijo, solo numero"));
+    let meses = cargar("Ingrese la cantidad de meses que establecera el plazo fijo, solo numero");
 
     let conver = parseFloat(porcent/100);
 
