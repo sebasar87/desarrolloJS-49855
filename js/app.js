@@ -1,25 +1,12 @@
-//console.log ("buenos dias");
-
-//console.log ("buenos dias, su monto es ");
 let opcion = "si";
 
-/*function buscar(punto){
-    let evaluar = "false";
-    do {
-        if(! punto.(".")){
-            evaluar = "true"
-        }else{
-            punto = prompt("ingrese el numero sin '.'")
-        }
-    }while (evaluar != "false");
-}
-*/
+//funcion que solicita y carga el dato correspondiente 
 function cargar(saludo){
     let evaluar = "false";
-    let ingreso = "nada";
+    let ingreso = "";
     do {
         ingreso = parseFloat(prompt(saludo));
-        if (typeof ingreso === "number"){
+        if (!isNaN(ingreso)){
             evaluar = "true"
         } else{
             alert ("no es un numero intente de nuevo");
@@ -29,7 +16,17 @@ function cargar(saludo){
     
     return ingreso ;
 }
+//funcion decimal que convierte el numero de porcentaje sin el % en decimal
+const decimal = (p) => {return p/100}
+//funcion ganancia calculadora de ganancia mensual
+function ganancia(monto,plazo,rendi){
+    for(let i = 0 ; i < plazo ; i++){
+        monto = monto + (monto*rendi);
+    }
 
+    return monto;
+}
+//cuerpo del programa
 do {  
 
     let valor = cargar("Buenos dias calcularemos el interes compuesto de su plazo fijo ingrese monto, solo numeros");
@@ -38,15 +35,12 @@ do {
 
     let meses = cargar("Ingrese la cantidad de meses que establecera el plazo fijo, solo numero");
 
-    let conver = parseFloat(porcent/100);
+    let conver = decimal(porcent);
+
+    let ganar = ganancia(valor,meses,conver);
 
 
-    for(let i = 0 ; i < meses ; i++){
-        valor = valor + (valor*conver);
-    }
-
-
-    console.log ("Al finalizar el tiempo usted recibira " + valor);
+    console.log ("Al finalizar el tiempo usted recibira " + ganar);
 
     opcion = prompt("desea realizar otra prueba. escriba 'si' para continuar o 'no' para salir");
 
