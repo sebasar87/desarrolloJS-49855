@@ -1,4 +1,4 @@
-let opcion = "si";
+/* let opcion = "si";
 
 //funcion que solicita y carga el dato correspondiente 
 function cargar(saludo){
@@ -48,4 +48,27 @@ do {
 
 } while (opcion != 'no');
 
-alert ("gracias por utilizar nuestro servicios, vuelva prontos");
+alert ("gracias por utilizar nuestro servicios, vuelva prontos"); */
+
+
+let palabra = prompt("inserte la palabra para saber cuantas letar tiene");
+
+if(palabra.includes(",")){
+    console.log("existe ',' en la palabra");
+}else{
+    console.log("no existen ',' en la palabra");
+}
+
+console.log("el largo de la palabra es " + palabra.length);
+for(let i = 0; i < palabra.length; i++){
+    console.log((i+1) + " posicion esta la letra " + palabra[i]);
+    if(palabra[i] === ","){
+        palabra = palabra.replace(/,/g, '.');
+        console.log("se modifico la ',' por '.'");
+        console.log(palabra);
+    }
+}
+
+console.log(palabra);
+
+alert("fin del programa");
