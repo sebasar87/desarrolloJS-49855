@@ -1,74 +1,105 @@
-/* let opcion = "si";
+let opcion = "";
+let ver = "";
+let listaProductos=[];
 
-//funcion que solicita y carga el dato correspondiente 
-function cargar(saludo){
-    let evaluar = "false";
-    let ingreso = "";
-    do {
-        ingreso = parseFloat(prompt(saludo));
-        if (!isNaN(ingreso)){
-            evaluar = "true"
-        } else{
-            alert ("no es un numero intente de nuevo");
+const saludo = () => { alert ("buenos dias");}
+
+
+class Productos{
+    constructor(nombre,precio,cantidad){
+        this.nombre = nombre;
+        this.precio = precio;
+        this.cantidad = cantidad;
+    }
+//metodos para obtener losatributos del objeto producto
+    nombreProducto(){
+        return this.nombre;
+    }
+    precioProducto(){
+        return this.precio;
+    }
+    cantidadProducto(){
+        return this.cantidad;
+    }
+//metodos para realizar la modificacion de los atributos del producto
+    nombreModificar(index,nombre){
+        this.nombre[index] = nombre;
+        return this.nombre;
+    }
+    precioModificar(index,precio){
+        this.precio[index] = precio;
+        return this.nombre; 
+    }
+    cantidadModificar(index,cantidad){
+        this.cantidad[index] = cantidad;
+        return this.nombre;
+    }
+    /*buscarProducto(lista,nombre){
+        let index = lista.findIndex(Producto => Producto.nombre === nombre);
+        return index 
+        if(index !== ""){
+            return index;
+        }else{
+            return "el producto no existe"
         }
+    }*/
 
-    }while (evaluar != "true");   
-    
-    return ingreso ;
-}
-//funcion decimal que convierte el numero de porcentaje sin el % en decimal
-const decimal = (p) => {return p/100}
-//funcion ganancia calculadora de ganancia mensual
-function ganancia(monto,plazo,rendi){
-    for(let i = 0 ; i < plazo ; i++){
-        monto = monto + (monto*rendi);
-    }
-
-    return monto;
-}
-//cuerpo del programa
-do {  
-
-    let valor = cargar("Buenos dias calcularemos el interes compuesto de su plazo fijo ingrese monto, solo numeros");
-
-    const porcent = cargar("ingrese el porcentaje que pagara el banco, solo numero");  
-
-    let meses = cargar("Ingrese la cantidad de meses que establecera el plazo fijo, solo numero");
-
-    let conver = decimal(porcent);
-
-    let ganar = ganancia(valor,meses,conver);
-
-
-    console.log ("Al finalizar el tiempo usted recibira " + ganar);
-
-    opcion = prompt("desea realizar otra prueba. escriba 'si' para continuar o 'no' para salir");
-
-    console.log(opcion);
-
-} while (opcion != 'no');
-
-alert ("gracias por utilizar nuestro servicios, vuelva prontos"); */
-
-
-let palabra = prompt("inserte la palabra para saber cuantas letar tiene");
-
-if(palabra.includes(",")){
-    console.log("existe ',' en la palabra");
-}else{
-    console.log("no existen ',' en la palabra");
 }
 
-console.log("el largo de la palabra es " + palabra.length);
-for(let i = 0; i < palabra.length; i++){
-    console.log((i+1) + " posicion esta la letra " + palabra[i]);
-    if(palabra[i] === ","){
-        palabra = palabra.replace(/,/g, '.');
-        console.log("se modifico la ',' por '.'");
-        console.log(palabra);
-    }
+function buscar(nombre){
+    console.log("el nombre de la funcion " + nombre);
+    return listaProductos.findIndex(producto => producto.nombre == nombre);
 }
 
-console.log(palabra);
+function cargar (){
+    let nombre = prompt("Ingrese nombre del producto");
+    let precio = parseFloat(prompt("Ingrese precio del producto"));
+    let cantidad = parseInt(prompt("Ingrese la cantidad disponible del producto"));
+    const Producto = new Productos(nombre,precio,cantidad)
+    return Producto;
+}
 
-alert("fin del programa");
+const Producto = new Productos("cafe",56,90);
+listaProductos.push(Producto);
+let numero=listaProductos.length;
+console.log("valor numero cantidad de productos cargados " + numero);
+console.log("el producto cargado es " + listaProductos[numero-1].nombre + ", su precio es " + listaProductos[numero-1].precio + ", la cantidad es " + listaProductos[numero-1].cantidad);
+
+do{
+saludo ();
+opcion = prompt("Ingrese 1 para agregar producto\nIngrese 2 para modificar producto\nIngrese 3 para eliminar producto\nIngrese 4 para salir");
+//opcion = confirm("desea salir?");
+//console.log ("opcion es " + opcion);
+switch(opcion){
+    case "1":
+        alert ("Ingrese los datos del producto");
+        listaProductos.push(cargar ())
+        let numero=listaProductos.length;
+        console.log("valor numero cantidad de productos cargados " + numero);
+        console.log("el producto cargado es " + listaProductos[numero-1].nombre + ", su precio es " + listaProductos[numero-1].precio + ", la cantidad es " + listaProductos[numero-1].cantidad);
+        break;
+    case "2":
+        alert ("Ingrese que producto modificar");
+/* 
+        ver = prompt("ingrese nombre del producto")
+        let ind = Productos.buscarProducto(listaProductos,ver)
+        if(ind){
+            console.log("el producto es " + ver);
+        }else{
+            alert("fallo " + ver);
+        } */
+        let ind = buscar(prompt("ingrese el nombre del producto"));
+        console.log("la ubicacion es " + ind);
+        break;
+    case "3":
+        alert ("Ingrese que producto eliminar");
+        break;
+    case "4":
+        opcion = confirm("desea salir?");
+        break; 
+}
+
+
+}while(opcion !== true);
+
+console.log ("fin del programa");
