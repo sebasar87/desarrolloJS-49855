@@ -47,12 +47,11 @@ class Productos{
 }
 
 function buscar(nombre){
-    console.log("el nombre de la funcion " + nombre);
-    return listaProductos.findIndex(producto => producto.nombre == nombre);
+    return listaProductos.findIndex((producto)=> producto.nombre === nombre);
 }
 
 function cargar (){
-    let nombre = prompt("Ingrese nombre del producto");
+    let nombre = prompt("Ingrese nombre del producto").toUpperCase().trim();
     let precio = parseFloat(prompt("Ingrese precio del producto"));
     let cantidad = parseInt(prompt("Ingrese la cantidad disponible del producto"));
     const Producto = new Productos(nombre,precio,cantidad)
@@ -67,7 +66,7 @@ console.log("el producto cargado es " + listaProductos[numero-1].nombre + ", su 
 
 do{
 saludo ();
-opcion = prompt("Ingrese 1 para agregar producto\nIngrese 2 para modificar producto\nIngrese 3 para eliminar producto\nIngrese 4 para salir");
+opcion = prompt("Ingrese 1 para agregar producto\nIngrese 2 para modificar producto\nIngrese 3 para eliminar producto\nIngrese 4 para ver todos los productos\nIngrese 5 para salir");
 //opcion = confirm("desea salir?");
 //console.log ("opcion es " + opcion);
 switch(opcion){
@@ -88,13 +87,16 @@ switch(opcion){
         }else{
             alert("fallo " + ver);
         } */
-        let ind = buscar(prompt("ingrese el nombre del producto"));
+        let ind = buscar(prompt("ingrese el nombre del producto").toUpperCase().trim());
         console.log("la ubicacion es " + ind);
         break;
     case "3":
         alert ("Ingrese que producto eliminar");
         break;
     case "4":
+        console.table(listaProductos);
+        break;
+    case "5":
         opcion = confirm("desea salir?");
         break; 
 }
