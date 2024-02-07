@@ -82,9 +82,34 @@ function aumentar(){
 
 }
 //funcion que muestra la lista de los productos
-function verProd(lista){    
+/*function verProd(lista){    
     console.table(lista);
 }
+*/
+function verProd(lista){    
+    console.table(lista);
+
+    let contabla = document.getElementById("tablaProd");
+    let conttbody = document.createElement("tbody");
+    conttbody.innerHTML = `<tr>
+                                <td>Nombre</td>
+                                <td>Precio</td>
+                                <td>Cantidad</td>
+                            </tr>`;
+    contabla.appendChild(conttbody);
+
+    for(const producto of lista){
+        conttbody = document.createElement("tbody");
+        conttbody.innerHTML = `<tr>
+                                    <td>${producto.nombre}</td>
+                                    <td>${producto.precio}</td>
+                                    <td>${producto.cantidad}</td>
+                                </tr>`
+        contabla.appendChild(conttbody);
+    }
+}
+
+
 
 /*const Producto = new Productos("CAFE",56,90);
 listaProductos.push(Producto);

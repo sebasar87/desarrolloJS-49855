@@ -1,0 +1,43 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+main{
+    margin: 10px;
+}
+h1{
+    text-align: center;
+    font-size: 80px;
+}
+h2{
+    font-size: 40px;
+}
+.menu{
+    display: flex;
+}
+.menu_opciones{
+    display: flex;
+    flex-direction: column;
+    width: 120px;
+    border: 2px solid black;
+}
+.menu_boton{
+    margin: 10px;
+    font-size: 20px;
+    border: 2px solid black;
+}
+.menu_formulario{
+    font-size: 25px;
+    text-align:left;
+    margin-left: 20px;
+    padding-left: 10px;
+}
+.menu_div_tabla{
+    margin-top: 20px;
+}
+.menu_tabla td, .menu_tabla th{
+    font-size: 25px;
+    border: 2px double black;
+    padding: 5px;
+}
+
