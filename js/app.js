@@ -22,11 +22,35 @@ class Productos{
         return this.cantidad;
     }*/
 }
+//funcion para cargar desde el localstorage al array
+function cargArray(){
+    listaProductos = JSON.parse(localStorage.getItem("listaDeProductos"));
+    return listaProductos;
+}
 //funcion para buscar el index del producto en el array
 function buscar(nombre){
     return listaProductos.findIndex((producto)=> producto.nombre === nombre);
 }
+//funcion para levantar los datos del form
+function datosForm(){
+    let form = document.getElementById("formulario");
+    let nombre = form.elements["nombre"].value.toUpperCase().trim();
+    let precio = parseFloat(form.elements["precio"].value);
+    let cantidad = parseInt(form.elements["cantidad"].value);
+    const Producto = new Productos(nombre,precio,cantidad);
+    console.log(Producto.nombre+" "+Producto.precio+" "+Producto.cantidad)
+    return Producto;     
+}
+//funcion para guardar en localstorage
+const guardarLocalStorage = (clave,valor) => {localStorage.setItem(clave,valor)}
 //funcion para cargar unproducto nuevo
+function cargar (){
+    const Producto = datosForm();
+    listaProductos.push(Producto);
+    guardarLocalStorage("listaDeProductos",JSON.stringify(listaProductos));
+    verProd(listaProductos);
+}
+/*
 function cargar (){
     let nombre = prompt("Ingrese nombre del producto").toUpperCase().trim();
     let ind = buscar(nombre);
@@ -39,6 +63,7 @@ function cargar (){
         alert("El producto ya existe")
     }
 }
+*/
 //funcion que permite modificar un producto
 function modificar(){
     let ind = buscar(prompt("ingrese el nombre del producto a modificar").toUpperCase().trim());
@@ -87,7 +112,7 @@ function aumentar(){
 }
 */
 function verProd(lista){    
-    console.table(lista);
+    lista = cargArray();
 
     let contabla = document.getElementById("tablaProd");
     let conttbody = document.createElement("tbody");
@@ -117,7 +142,7 @@ let numero=listaProductos.length;
 console.log("valor numero cantidad de productos cargados " + numero);
 console.log("el producto cargado es " + listaProductos[numero-1].nombre + ", su precio es " + listaProductos[numero-1].precio + ", la cantidad es " + listaProductos[numero-1].cantidad);
 */
-do{
+/*do{
 saludo ();
 opcion = prompt("Ingrese 1 para agregar producto\nIngrese 2 para modificar producto\nIngrese 3 para eliminar producto\nIngrese 4 para ver todos los productos\nIngrese 5 para calcular el aumento en los precios\nIngrese 6 para salir");
 switch(opcion){
@@ -151,4 +176,21 @@ switch(opcion){
 
 }while(opcion !== true);
 
-console.log ("fin del programa");
+console.log ("fin del programa");*/
+
+
+let botonVer = document.getElementById("ver");
+botonVer.addEventListener("click", verProd(listaProductos));
+let botonCargar = document.getElementById("agregar");
+botonCargar.addEventListener("click",cargar)
+
+
+/*
+localStorage.setItem('producto',prod);
+localStorage.setItem('precio',prec);
+localStorage.setItem('cantidad',cant);
+*/
+
+
+
+
