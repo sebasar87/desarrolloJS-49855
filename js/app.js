@@ -31,6 +31,14 @@ function cargArray(){
 function buscar(nombre){
     return listaProductos.findIndex((producto)=> producto.nombre === nombre);
 }
+//funcion para ver el dato buscado
+function buscarProd(){
+    let lista = cargArray();
+    let producto = datosForm();
+    let datos = buscar(producto.nombre)
+    //console.log(datos)
+    mostrarProd(lista[datos]);
+}
 //funcion para levantar los datos del form
 function datosForm(){
     let form = document.getElementById("formulario");
@@ -78,8 +86,14 @@ function modificar(){
 }
 //funcion para eliminar un producto
 function eliminar(){
-    let ind = buscar(prompt("ingrese el nombre del producto a eliminar").toUpperCase().trim());
+    let lista = cargArray();
+    let producto = datosForm();
+    let ind = buscar(producto.nombre);
+    console.log("valor de ind " + ind);
+    //let ind = buscar(prompt("ingrese el nombre del producto a eliminar").toUpperCase().trim());
     listaProductos.splice(ind,1);
+    guardarLocalStorage("listaDeProductos",JSON.stringify(listaProductos));
+    verLista();
 }
 
 //funcion decimal que convierte el numero de porcentaje sin el % en decimal
@@ -106,16 +120,17 @@ function aumentar(){
     verProd(nuevalist);
 
 }
-//funcion que muestra la lista de los productos
-/*function verProd(lista){    
-    console.table(lista);
+//funcion para ver la lista de todos los productos
+function verLista(){
+    let lista = cargArray();
+    verProd(lista);
 }
-*/
+//funcion que recorre la lista de los productos
 function verProd(lista){    
-    lista = cargArray();
-
     let contabla = document.getElementById("tablaProd");
     let conttbody = document.createElement("tbody");
+    console.log(lista);
+    contabla.innerHTML = " ";
     conttbody.innerHTML = `<tr>
                                 <td>Nombre</td>
                                 <td>Precio</td>
@@ -132,6 +147,26 @@ function verProd(lista){
                                 </tr>`
         contabla.appendChild(conttbody);
     }
+}
+//funcion para mostrar un solo producto de la lista
+function mostrarProd(producto){    
+    let contabla = document.getElementById("tablaProd");
+    let conttbody = document.createElement("tbody");
+    console.log(producto);
+    contabla.innerHTML = " ";
+    conttbody.innerHTML = `<tr>
+                                <td>Nombre</td>
+                                <td>Precio</td>
+                                <td>Cantidad</td>
+                            </tr>`;
+    contabla.appendChild(conttbody);
+        conttbody = document.createElement("tbody");
+        conttbody.innerHTML = `<tr>
+                                    <td>${producto.nombre}</td>
+                                    <td>${producto.precio}</td>
+                                    <td>${producto.cantidad}</td>
+                                </tr>`
+        contabla.appendChild(conttbody);
 }
 
 
@@ -178,11 +213,20 @@ switch(opcion){
 
 console.log ("fin del programa");*/
 
-
-let botonVer = document.getElementById("ver");
-botonVer.addEventListener("click", verProd(listaProductos));
+//boton para cargar
 let botonCargar = document.getElementById("agregar");
-botonCargar.addEventListener("click",cargar)
+botonCargar.addEventListener("click",function(){cargar()});
+//boton para eliminar
+let botonEliminar = document.getElementById("eliminar");
+botonEliminar.addEventListener("click",function(){eliminar()});
+//boton para ver productos
+let botonVer = document.getElementById("ver");
+botonVer.addEventListener("click",function () {verLista()});
+//boton para buscar productos
+let botonBuscar = document.getElementById("buscar");
+botonBuscar.addEventListener("click",function() {buscarProd()});
+
+
 
 
 /*
