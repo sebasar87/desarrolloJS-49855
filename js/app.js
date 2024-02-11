@@ -83,11 +83,19 @@ function modificar(){
     let lista = cargArray();
     let nom = datosFormBEM();
     let ind = buscar(nom);
-    if(ind != -1){ 
+    if(ind != -1){
+    /*         
     listaProductos[ind].nombre = prompt("Ingrese el nuevo nombre").toUpperCase().trim();
     listaProductos[ind].precio = prompt("ingrese nuevo precio");
     listaProductos[ind].cantidad = prompt("ingrese nueva cantidad");
-    return ind;
+    */
+    const Producto = datosForm();  
+    lista[ind].nombre = Producto.nombre
+    lista[ind].precio = Producto.precio
+    lista[ind].cantidad = Producto.cantidad
+    guardarLocalStorage("listaDeProductos",JSON.stringify(lista));
+    verLista();
+    //return ind;
     }else{
         alert("El producto no existe");
     }
@@ -228,6 +236,9 @@ botonCargar.addEventListener("click",function(){cargar()});
 //boton para eliminar
 let botonEliminar = document.getElementById("eliminar");
 botonEliminar.addEventListener("click",function(){eliminar()});
+//boton para modificar
+let botonModificar = document.getElementById("modificar");
+botonModificar.addEventListener("click",function(){modificar()});
 //boton para ver productos
 let botonVer = document.getElementById("ver");
 botonVer.addEventListener("click",function () {verLista()});
