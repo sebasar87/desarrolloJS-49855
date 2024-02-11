@@ -37,7 +37,17 @@ function buscarProd(){
     let nom = datosFormBEM();
     let ind = buscar(nom);
     //console.log(datos)
-    mostrarProd(lista[ind]);
+    //mostrarProd(lista[ind]);
+    ind === -1 ? sweetAlerta() : mostrarProd(lista[ind]);
+}
+//funcion para alertas
+function sweetAlerta(){
+    Swal.fire({
+        icon: "error",
+        title: "Oops...",
+        text: "El dato ingresado es invalido revisa si el producto existe o si ingresaste mal el precio y cantidad!",
+        //footer: '<a href="#">Why do I have this issue?</a>'
+      });
 }
 //funcion para levantar los datos del form
 function datosForm(){
@@ -53,7 +63,8 @@ function datosForm(){
 function datosFormBEM(){
     let formBEM = document.getElementById("formularioBEM");
     let nom = formBEM.elements["nombre"].value.toUpperCase().trim();
-    return nom;
+    nom === "" && sweetAlerta() ;
+    return nom;    
 }
 //funcion para guardar en localstorage
 const guardarLocalStorage = (clave,valor) => {localStorage.setItem(clave,valor)}
@@ -84,20 +95,16 @@ function modificar(){
     let nom = datosFormBEM();
     let ind = buscar(nom);
     if(ind != -1){
-    /*         
-    listaProductos[ind].nombre = prompt("Ingrese el nuevo nombre").toUpperCase().trim();
-    listaProductos[ind].precio = prompt("ingrese nuevo precio");
-    listaProductos[ind].cantidad = prompt("ingrese nueva cantidad");
-    */
     const Producto = datosForm();  
-    lista[ind].nombre = Producto.nombre
-    lista[ind].precio = Producto.precio
-    lista[ind].cantidad = Producto.cantidad
+    const {nombre,precio,cantidad} = Producto;
+    lista[ind].nombre = nombre
+    lista[ind].precio = precio
+    lista[ind].cantidad = cantidad
     guardarLocalStorage("listaDeProductos",JSON.stringify(lista));
     verLista();
     //return ind;
     }else{
-        alert("El producto no existe");
+        sweetAlerta();
     }
 }
 //funcion para eliminar un producto
@@ -106,9 +113,13 @@ function eliminar(){
     let nom = datosFormBEM();
     let ind = buscar(nom);
     console.log("valor de ind " + ind);
+    if(ind !== -1){
     listaProductos.splice(ind,1);
     guardarLocalStorage("listaDeProductos",JSON.stringify(listaProductos));
     verLista();
+    }else{
+        sweetAlerta();
+    }
 }
 
 //funcion decimal que convierte el numero de porcentaje sin el % en decimal
@@ -154,11 +165,12 @@ function verProd(lista){
     contabla.appendChild(conttbody);
 
     for(const producto of lista){
+        const {nombre,precio,cantidad} = producto;
         conttbody = document.createElement("tbody");
         conttbody.innerHTML = `<tr>
-                                    <td>${producto.nombre}</td>
-                                    <td>${producto.precio}</td>
-                                    <td>${producto.cantidad}</td>
+                                    <td>${nombre}</td>
+                                    <td>${precio}</td>
+                                    <td>${cantidad}</td>
                                 </tr>`
         contabla.appendChild(conttbody);
     }
@@ -177,11 +189,12 @@ function mostrarProd(producto){
                                 <td>Cantidad</td>
                             </tr>`;
     contabla.appendChild(conttbody);
+    const {nombre,precio,cantidad} = producto;
         conttbody = document.createElement("tbody");
         conttbody.innerHTML = `<tr>
-                                    <td>${producto.nombre}</td>
-                                    <td>${producto.precio}</td>
-                                    <td>${producto.cantidad}</td>
+                                    <td>${nombre}</td>
+                                    <td>${precio}</td>
+                                    <td>${cantidad}</td>
                                 </tr>`
         contabla.appendChild(conttbody);
 }
