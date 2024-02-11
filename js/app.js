@@ -34,10 +34,10 @@ function buscar(nombre){
 //funcion para ver el dato buscado
 function buscarProd(){
     let lista = cargArray();
-    let producto = datosForm();
-    let datos = buscar(producto.nombre)
+    let nom = datosFormBEM();
+    let ind = buscar(nom);
     //console.log(datos)
-    mostrarProd(lista[datos]);
+    mostrarProd(lista[ind]);
 }
 //funcion para levantar los datos del form
 function datosForm(){
@@ -48,6 +48,12 @@ function datosForm(){
     const Producto = new Productos(nombre,precio,cantidad);
     console.log(Producto.nombre+" "+Producto.precio+" "+Producto.cantidad)
     return Producto;     
+}
+//funcion para obtener los datos de formBEM
+function datosFormBEM(){
+    let formBEM = document.getElementById("formularioBEM");
+    let nom = formBEM.elements["nombre"].value.toUpperCase().trim();
+    return nom;
 }
 //funcion para guardar en localstorage
 const guardarLocalStorage = (clave,valor) => {localStorage.setItem(clave,valor)}
@@ -74,7 +80,9 @@ function cargar (){
 */
 //funcion que permite modificar un producto
 function modificar(){
-    let ind = buscar(prompt("ingrese el nombre del producto a modificar").toUpperCase().trim());
+    let lista = cargArray();
+    let nom = datosFormBEM();
+    let ind = buscar(nom);
     if(ind != -1){ 
     listaProductos[ind].nombre = prompt("Ingrese el nuevo nombre").toUpperCase().trim();
     listaProductos[ind].precio = prompt("ingrese nuevo precio");
@@ -87,10 +95,9 @@ function modificar(){
 //funcion para eliminar un producto
 function eliminar(){
     let lista = cargArray();
-    let producto = datosForm();
-    let ind = buscar(producto.nombre);
+    let nom = datosFormBEM();
+    let ind = buscar(nom);
     console.log("valor de ind " + ind);
-    //let ind = buscar(prompt("ingrese el nombre del producto a eliminar").toUpperCase().trim());
     listaProductos.splice(ind,1);
     guardarLocalStorage("listaDeProductos",JSON.stringify(listaProductos));
     verLista();
@@ -147,6 +154,8 @@ function verProd(lista){
                                 </tr>`
         contabla.appendChild(conttbody);
     }
+
+    console.table(lista[0]);
 }
 //funcion para mostrar un solo producto de la lista
 function mostrarProd(producto){    

@@ -18,11 +18,13 @@
             <div class="menu_opciones">
                 <button class="menu_boton" id="agregar">agregar</button>
                 <button class="menu_boton" id="eliminar">eliminar</button>
+                <button class="menu_boton" id="modificar">modificar</button>
                 <button class="menu_boton" id="buscar">buscar</button>
                 <button class="menu_boton" id="ver">ver</button>
             </div>
             <div class="menu_formulario">
                 <form id="formulario">
+                    <h5>Ingrese producto a agregar</h5>
                     <div id="formulario_etiqueta">
                     <label for="nombre">Nombre:</label>
                     <input type="text" id="nombre" name="nombre" required>
@@ -34,6 +36,15 @@
                     <div id="formulario_etiqueta">
                     <label for="cantidad">Cantidad:</label>
                     <input type="number" id="cantidad" name="cantidad" required>
+                    </div>
+                </form>
+            </div>
+            <div class="menu_formulario">
+                <h5>Ingrese para buscar, eliminar o modificar</h2>
+                <form id="formularioBEM">
+                    <div id="formulario_etiqueta">
+                    <label for="nombre">Nombre:</label>
+                    <input type="text" id="nombre" name="nombre" required>
                     </div>
                 </form>
             </div>
