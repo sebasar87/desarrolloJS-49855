@@ -27,6 +27,9 @@ function cargArray(){
     listaProductos = JSON.parse(localStorage.getItem("listaDeProductos"));
     return listaProductos;
 }
+function removerLocalStorage(){
+    localStorage.clear();
+}
 //funcion para buscar el index del producto en el array
 function buscar(nombre){
     return listaProductos.findIndex((producto)=> producto.nombre === nombre);
@@ -77,11 +80,11 @@ function datosForm(){
     if (nombre !=="" || nombreBEM !=="" ){
     let precio = parseFloat(form.elements["precio"].value);
     isNaN(precio) && (precio = 0);
-    console.log("precio " + precio);
+    //console.log("precio " + precio);
     let cantidad = parseInt(form.elements["cantidad"].value);
     isNaN(cantidad) && (cantidad = 0);
     const Producto = new Productos(nombre,precio,cantidad);
-    console.log("esto es en form " + Producto.nombre+" "+Producto.precio+" "+Producto.cantidad)
+    //console.log("esto es en form " + Producto.nombre+" "+Producto.precio+" "+Producto.cantidad)
     return Producto;  
     }else{
         sweetAlerta() ;
@@ -98,9 +101,11 @@ function datosFormBEM(){
 const guardarLocalStorage = (clave,valor) => {localStorage.setItem(clave,valor)}
 //funcion para cargar unproducto nuevo
 function cargar (){
+    let ind
     const Producto = datosForm();
     const {nombre,precio,cantidad} = Producto;
-    let ind = buscar(nombre);
+    //console.log(listaProductos.length);
+    listaProductos.length === 0 ? ind = -1 : ind = buscar(nombre);
     if(ind === -1){
     listaProductos.push(Producto);
     guardarLocalStorage("listaDeProductos",JSON.stringify(listaProductos));
@@ -124,17 +129,93 @@ function cargar (){
     }
 }
 */
-//funcion que permite modificar un producto
-function modificar(){
+//funcion para formulario modificar
+function modificarForm(){
+    let divformMod = document.getElementById("formularioBEM");
+    let formBEM = document.createElement("div")
+    formBEM.innerHTML = `   <h5>Modifique los datos</h5>
+                                <div id="formulario_etiqueta">
+                                    <label for="nombreBEM">Nombre:</label>
+                                    <input type="text" id="nombreBEM" name="nombreBEM" required>
+                                </div>
+                                <div id="formulario_etiqueta">
+                                    <label for="precio">Precio:</label>
+                                    <input type="number" id="precio" name="precio" required>
+                                </div>
+                                <div id="formulario_etiqueta">
+                                    <label for="cantidad">Cantidad:</label>
+                                    <input type="number" id="cantidad" name="cantidad" required>
+                                </div>                                                                                    
+                            `
+    divformMod.appendChild(formBEM);
+}
+//funcion alert para guardar los datos modificados
+/*function sweetMod(){
+    Swal.fire({
+        title: "Deseas guardar los cambios?",
+        showDenyButton: true,
+        showCancelButton: false,
+        confirmButtonText: "Save",
+        denyButtonText: `Don't save`
+    }).then((result) => {
+        // Read more about isConfirmed, isDenied below 
+        if (result.isConfirmed) {
+            Swal.fire("Saved!", "", "success");
+        } else if (result.isDenied) {
+            Swal.fire("Changes are not saved", "", "info");
+        }
+    });
+} */
+//funcion que guarda los datos guardados de modificar
+function guardarMod(){
     let lista = cargArray();
+    verProd(lista);
     let nom = datosFormBEM();
     let ind = buscar(nom);
-    if(ind != -1){
-    const Producto = datosForm(); 
-    console.log("este el nombre en modificar " + Producto.nombre);
+    if(ind != -1){ 
+        let formBEM = document.getElementById("formularioBEM");
+        //let form = document.getElementById("formulario");
+        //let nombre = formBEM.elements["nombre"].value.toUpperCase().trim();
+        let nombreBEM = formBEM.elements["nombreBEM"].value.toUpperCase().trim();
+        if (nombreBEM !=="" ){
+            let precioBEM = parseFloat(formBEM.elements["precio"].value);
+            isNaN(precioBEM) && (precioBEM = 0);
+            //console.log("precio " + precio);
+            let cantidadBEM = parseInt(formBEM.elements["cantidad"].value);
+            isNaN(cantidadBEM) && (cantidadBEM = 0);
+            const Producto = new Productos(nombreBEM,precioBEM,cantidadBEM);
+            console.log("esto es en form " + Producto.nombreBEM+" "+Producto.precioBEM+" "+Producto.cantidadBEM)
+            //return Producto;  
+            Producto.nombre ==="" && (Producto.nombre = "NOT");
+            isNaN(Producto.precio) && (Producto.precio = 0);
+            isNaN(Producto.cantidad) && (Producto.cantidad = 0);   
+            const {nombre,precio,cantidad} = Producto;
+            nombre!=="NOT" && (lista[ind].nombre = nombre);
+            precio !==-1 && (lista[ind].precio = precio);
+            cantidad !==-1 && (lista[ind].cantidad = cantidad);
+            guardarLocalStorage("listaDeProductos",JSON.stringify(lista));
+            verLista();
+            sweetAgregar();
+        }else{
+            sweetAlerta() ;
+        } 
+    }else{
+        sweetAlerta() ;
+    }  
+}
+
+//funcion que permite modificar un producto
+function modificar(){
+    //let lista = cargArray();
+    let nom = datosFormBEM();
+    let ind = buscar(nom);
+    if(ind != -1){   
+    modificarForm(); 
+    /*const Producto = modificarForm();
+    console.table(Producto);
     Producto.nombre ==="" && (Producto.nombre = "NOT");
-    isNaN(Producto.precio) && (Producto.precio = -1);
-    isNaN(Producto.cantidad) && (Producto.cantidad = -1);   
+    isNaN(Producto.precio) && (Producto.precio = 0);
+    isNaN(Producto.cantidad) && (Producto.cantidad = 0);   
     const {nombre,precio,cantidad} = Producto;
     nombre!=="NOT" && (lista[ind].nombre = nombre);
     precio !==-1 && (lista[ind].precio = precio);
@@ -143,6 +224,7 @@ function modificar(){
     verLista();
     sweetAgregar();
     //return ind;
+    */
     }else{
         sweetAlerta();
     }
@@ -152,10 +234,10 @@ function eliminar(){
     let lista = cargArray();
     let nom = datosFormBEM();
     let ind = buscar(nom);
-    console.log("valor de ind " + ind);
+    //console.log("valor de ind " + ind);
     if(ind !== -1){
-    listaProductos.splice(ind,1);
-    guardarLocalStorage("listaDeProductos",JSON.stringify(listaProductos));
+    lista.splice(ind,1);
+    guardarLocalStorage("listaDeProductos",JSON.stringify(lista));
     verLista();
     }else{
         sweetAlerta();
@@ -189,15 +271,16 @@ function aumentar(){
 //funcion para ver la lista de todos los productos
 function verLista(){
     let lista = cargArray();
-    console.log("esto es lista " + lista)
+    //console.log("esto es lista " + lista)
     lista !== null  ? verProd(lista) : sweetAlertaLista();
+    lista === null && removerLocalStorage();
 
 }
 //funcion que recorre la lista de los productos
 function verProd(lista){    
     let contabla = document.getElementById("tablaProd");
     let conttbody = document.createElement("tbody");
-    console.log(lista);
+    //console.log(lista);
     contabla.innerHTML = " ";
     conttbody.innerHTML = `<tr>
                                 <td>Nombre</td>
@@ -215,7 +298,7 @@ function verProd(lista){
                                 </tr>`
         contabla.appendChild(conttbody);
     }
-    console.table(lista[0]);
+    //console.table(lista[0]);
 }
 //funcion para mostrar un solo producto de la lista
 function mostrarProd(producto){    
@@ -286,6 +369,9 @@ console.log ("fin del programa");*/
 //boton para cargar
 let botonCargar = document.getElementById("agregar");
 botonCargar.addEventListener("click",function(){cargar()});
+//boton generado por la funcion modificar
+let botonGuardar = document.getElementById("guardar");
+botonGuardar.addEventListener("click",function(){guardarMod()});
 //boton para eliminar
 let botonEliminar = document.getElementById("eliminar");
 botonEliminar.addEventListener("click",function(){eliminar()});
