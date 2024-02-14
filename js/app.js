@@ -47,17 +47,45 @@ function sweetAlerta(){
         title: "Oops...",
         text: "El dato ingresado es invalido revisa si el producto existe o si ingresaste mal el precio y cantidad!",
         //footer: '<a href="#">Why do I have this issue?</a>'
-      });
+    });
+}
+//funcion de alerta para lista vacia
+function sweetAlertaLista(){
+    Swal.fire({
+        icon: "error",
+        title: "Oops...",
+        text: "La lista esta vacia!",
+        //footer: '<a href="#">Why do I have this issue?</a>'
+    });
+}
+//funcion de alerta para agregado correcto
+function sweetAgregar(){
+    Swal.fire({
+        position: "center",
+        icon: "success",
+        title: "Tu producto se agrego/modifico correctamente",
+        showConfirmButton: false,
+        timer: 1500
+    });
 }
 //funcion para levantar los datos del form
 function datosForm(){
+    let formBEM = document.getElementById("formularioBEM");
     let form = document.getElementById("formulario");
     let nombre = form.elements["nombre"].value.toUpperCase().trim();
+    let nombreBEM = formBEM.elements["nombre"].value.toUpperCase().trim();
+    if (nombre !=="" || nombreBEM !=="" ){
     let precio = parseFloat(form.elements["precio"].value);
+    isNaN(precio) && (precio = 0);
+    console.log("precio " + precio);
     let cantidad = parseInt(form.elements["cantidad"].value);
+    isNaN(cantidad) && (cantidad = 0);
     const Producto = new Productos(nombre,precio,cantidad);
-    console.log(Producto.nombre+" "+Producto.precio+" "+Producto.cantidad)
-    return Producto;     
+    console.log("esto es en form " + Producto.nombre+" "+Producto.precio+" "+Producto.cantidad)
+    return Producto;  
+    }else{
+        sweetAlerta() ;
+    }   
 }
 //funcion para obtener los datos de formBEM
 function datosFormBEM(){
@@ -71,9 +99,16 @@ const guardarLocalStorage = (clave,valor) => {localStorage.setItem(clave,valor)}
 //funcion para cargar unproducto nuevo
 function cargar (){
     const Producto = datosForm();
+    const {nombre,precio,cantidad} = Producto;
+    let ind = buscar(nombre);
+    if(ind === -1){
     listaProductos.push(Producto);
     guardarLocalStorage("listaDeProductos",JSON.stringify(listaProductos));
     verProd(listaProductos);
+    sweetAgregar();
+    }else{
+        sweetAlerta() ;
+    } 
 }
 /*
 function cargar (){
@@ -95,13 +130,18 @@ function modificar(){
     let nom = datosFormBEM();
     let ind = buscar(nom);
     if(ind != -1){
-    const Producto = datosForm();  
+    const Producto = datosForm(); 
+    console.log("este el nombre en modificar " + Producto.nombre);
+    Producto.nombre ==="" && (Producto.nombre = "NOT");
+    isNaN(Producto.precio) && (Producto.precio = -1);
+    isNaN(Producto.cantidad) && (Producto.cantidad = -1);   
     const {nombre,precio,cantidad} = Producto;
-    lista[ind].nombre = nombre
-    lista[ind].precio = precio
-    lista[ind].cantidad = cantidad
+    nombre!=="NOT" && (lista[ind].nombre = nombre);
+    precio !==-1 && (lista[ind].precio = precio);
+    cantidad !==-1 && (lista[ind].cantidad = cantidad);
     guardarLocalStorage("listaDeProductos",JSON.stringify(lista));
     verLista();
+    sweetAgregar();
     //return ind;
     }else{
         sweetAlerta();
@@ -149,7 +189,9 @@ function aumentar(){
 //funcion para ver la lista de todos los productos
 function verLista(){
     let lista = cargArray();
-    verProd(lista);
+    console.log("esto es lista " + lista)
+    lista !== null  ? verProd(lista) : sweetAlertaLista();
+
 }
 //funcion que recorre la lista de los productos
 function verProd(lista){    
@@ -163,7 +205,6 @@ function verProd(lista){
                                 <td>Cantidad</td>
                             </tr>`;
     contabla.appendChild(conttbody);
-
     for(const producto of lista){
         const {nombre,precio,cantidad} = producto;
         conttbody = document.createElement("tbody");
@@ -174,7 +215,6 @@ function verProd(lista){
                                 </tr>`
         contabla.appendChild(conttbody);
     }
-
     console.table(lista[0]);
 }
 //funcion para mostrar un solo producto de la lista
