@@ -2,7 +2,7 @@ let opcion = "";
 let ver = "";
 let listaProductos=[];
 
-const saludo = () => { alert ("buenos dias");}
+//const saludo = () => { alert ("buenos dias");}
 
 
 class Productos{
@@ -149,23 +149,7 @@ function modificarForm(){
                             `
     divformMod.appendChild(formBEM);
 }
-//funcion alert para guardar los datos modificados
-/*function sweetMod(){
-    Swal.fire({
-        title: "Deseas guardar los cambios?",
-        showDenyButton: true,
-        showCancelButton: false,
-        confirmButtonText: "Save",
-        denyButtonText: `Don't save`
-    }).then((result) => {
-        // Read more about isConfirmed, isDenied below 
-        if (result.isConfirmed) {
-            Swal.fire("Saved!", "", "success");
-        } else if (result.isDenied) {
-            Swal.fire("Changes are not saved", "", "info");
-        }
-    });
-} */
+
 //funcion que guarda los datos guardados de modificar
 function guardarMod(){
     let lista = cargArray();
@@ -184,7 +168,7 @@ function guardarMod(){
             let cantidadBEM = parseInt(formBEM.elements["cantidad"].value);
             isNaN(cantidadBEM) && (cantidadBEM = 0);
             const Producto = new Productos(nombreBEM,precioBEM,cantidadBEM);
-            console.log("esto es en form " + Producto.nombreBEM+" "+Producto.precioBEM+" "+Producto.cantidadBEM)
+            //console.log("esto es en form " + Producto.nombreBEM+" "+Producto.precioBEM+" "+Producto.cantidadBEM)
             //return Producto;  
             Producto.nombre ==="" && (Producto.nombre = "NOT");
             isNaN(Producto.precio) && (Producto.precio = 0);
@@ -245,10 +229,10 @@ function eliminar(){
 }
 
 //funcion decimal que convierte el numero de porcentaje sin el % en decimal
-const decimal = (p) => {return p/100}
-//funcion que muestra cuanto costarian los productos con un aumento
+//const decimal = (p) => {return p/100}
+//funcion que muestra cuanto costarian los productos en dolares
 function aumentar(){
-    let evaluar = "false";
+    /*let evaluar = "false";
     let ingreso = "";
     do {
         ingreso = parseFloat(prompt("Ingrese el porcentaje sin '%' para ver como quedarian los precios con un aumento"));
@@ -260,7 +244,9 @@ function aumentar(){
     }while (evaluar != "true");   
     
     let porcen = decimal(ingreso);
-
+    */
+    
+    
     const nuevalist = listaProductos.map((x) => {
         return {
             nombre: x.nombre, precio:(x.precio + (x.precio * porcen)), cantidad: x.cantidad }} );
@@ -304,7 +290,7 @@ function verProd(lista){
 function mostrarProd(producto){    
     let contabla = document.getElementById("tablaProd");
     let conttbody = document.createElement("tbody");
-    console.log(producto);
+    //console.log(producto);
     contabla.innerHTML = " ";
     conttbody.innerHTML = `<tr>
                                 <td>Nombre</td>
