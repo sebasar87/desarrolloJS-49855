@@ -1,6 +1,8 @@
 let opcion = "";
 let ver = "";
 let listaProductos=[];
+const DateTime = luxon.DateTime
+const http = "https://dolarapi.com/v1/dolares/oficial";
 
 //const saludo = () => { alert ("buenos dias");}
 
@@ -231,7 +233,7 @@ function eliminar(){
 //funcion decimal que convierte el numero de porcentaje sin el % en decimal
 //const decimal = (p) => {return p/100}
 //funcion que muestra cuanto costarian los productos en dolares
-function aumentar(){
+function precioDolar(){
     /*let evaluar = "false";
     let ingreso = "";
     do {
@@ -245,13 +247,18 @@ function aumentar(){
     
     let porcen = decimal(ingreso);
     */
+    let lista = cargArray();
+    fetch(http)
+    .then(response => response.json())
+    .then(data => {
     
-    
-    const nuevalist = listaProductos.map((x) => {
-        return {
-            nombre: x.nombre, precio:(x.precio + (x.precio * porcen)), cantidad: x.cantidad }} );
+        const nuevalist = lista.map((x) => {
+            return {
+                nombre: x.nombre, precio:(x.precio + (x.precio * data.venta)), cantidad: x.cantidad }} );
 
-    verProd(nuevalist);
+                verProd(nuevalist);
+    });
+    
 
 }
 //funcion para ver la lista de todos los productos
@@ -308,6 +315,20 @@ function mostrarProd(producto){
         contabla.appendChild(conttbody);
 }
 
+fetch(http)
+    .then(response => response.json())
+    .then(dolar => {
+        let divDolar = document.querySelector(".menu_verDolar");
+        let dolarOficial = document.createElement("div");
+        let dt = DateTime.fromISO(dolar.fechaActualizacion);
+        dolarOficial.innerHTML = `<h3>Dolar Oficial</h3>
+                            <p>Fecha: ${dt.toLocaleString(DateTime.DATE_FULL)}</p>
+                            <p>Hora: ${dt.toLocaleString(DateTime.TIME_SIMPLE)}</p>
+                            <p>Compra: ${dolar.compra}</p>
+                            <p>Venta: ${dolar.venta}</p>`
+        //console.log(dolarOficial);
+        divDolar.appendChild(dolarOficial);
+    });
 
 
 /*const Producto = new Productos("CAFE",56,90);
@@ -370,7 +391,9 @@ botonVer.addEventListener("click",function () {verLista()});
 //boton para buscar productos
 let botonBuscar = document.getElementById("buscar");
 botonBuscar.addEventListener("click",function() {buscarProd()});
-
+//boton para mostrar precios en dolares
+let botonDolar = document.getElementById("dolar");
+botonDolar.addEventListener("click",function(){precioDolar()})
 
 
 

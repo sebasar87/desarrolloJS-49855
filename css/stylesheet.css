@@ -21,6 +21,7 @@ h5{
 }
 .menu{
     display: flex;
+    justify-content: space-between;
 }
 .menu_opciones{
     display: flex;
@@ -47,6 +48,13 @@ button:active{
 input{
     height: 20px;
     font-size: 15px;
+}
+.menu_verDolar{
+    display: inline-block;
+    margin: 5px;
+    font-size: 20px;
+    text-align: center;
+    border: 2px solid black;
 }
 .menu_div_tabla{
     margin-top: 20px;
