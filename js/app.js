@@ -254,7 +254,7 @@ function precioDolar(){
     
         const nuevalist = lista.map((x) => {
             return {
-                nombre: x.nombre, precio:(x.precio + (x.precio * data.venta)), cantidad: x.cantidad }} );
+                nombre: x.nombre, precio:(parseFloat(x.precio / data.venta).toFixed(4)), cantidad: x.cantidad }} );
 
                 verProd(nuevalist);
     });
@@ -277,7 +277,7 @@ function verProd(lista){
     contabla.innerHTML = " ";
     conttbody.innerHTML = `<tr>
                                 <td>Nombre</td>
-                                <td>Precio</td>
+                                <td>Precio unidad</td>
                                 <td>Cantidad</td>
                             </tr>`;
     contabla.appendChild(conttbody);
@@ -301,7 +301,7 @@ function mostrarProd(producto){
     contabla.innerHTML = " ";
     conttbody.innerHTML = `<tr>
                                 <td>Nombre</td>
-                                <td>Precio</td>
+                                <td>Precio Unidad</td>
                                 <td>Cantidad</td>
                             </tr>`;
     contabla.appendChild(conttbody);
